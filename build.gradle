@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4' // 3.5.4는 없는 버전
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.smooth'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral() // ★ 여기에만 있어야 함
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // AWS Bedrock SDK
+    implementation 'software.amazon.awssdk:bedrockruntime:2.25.32'
+    implementation 'software.amazon.awssdk:auth:2.25.32'
+
+    // JSON 처리
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

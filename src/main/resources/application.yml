@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: bedrock_demo
+
+
+aws:
+  region: ap-northeast-2
+  profile: smooth

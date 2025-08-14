@@ -1,5 +1,5 @@
 # 1️⃣ common_example
-## 📄 파일 구조 형태
+## 📄 파일 구조 형태 - 우선 글로벌은 다 복붙하세요! user에는 사용 예시가 있습니다!
 ```java
 com.example
 ├── global/

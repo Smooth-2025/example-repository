@@ -1,7 +1,7 @@
 # 1️⃣ common_example
 ## 📄 파일 구조 형태 - 우선 글로벌은 다 복붙하세요! user에는 사용 예시가 있습니다!
 ```java
-com.example
+common_example
 ├── global/
 │   ├── common/
 │   │   └── ApiResponse.java
@@ -64,3 +64,69 @@ throw new BusinessException(UserErrorCode.USER_NOT_FOUND,
 throw new BusinessException(UserErrorCode.USER_NOT_FOUND);
 ```
 ----
+# 2️⃣ bedrock_example
+## 📄 파일 구조 형태
+```java
+bedrock_example
+├── BedrockController.java
+└── BedrockService.java
+```
+## 🔹 설명
+> `BedrockController`에서 `/api/bedrock/chat` 엔드포인트를 제공합니다.  
+> 클라이언트가 메시지를 보내면 BedrockService를 통해 모델 응답을 받아 반환합니다.
+
+## 📌 BedrockService 주요 기능
+### BedrockRuntimeClient 생성
+
+```java
+BedrockRuntimeClient.builder()
+    .region(Region.AP_NORTHEAST_2)
+    .credentialsProvider(ProfileCredentialsProvider.create("smooth"))
+    .build();
+```
+
+### 모델 호출 구조
+
+```java
+Map<String, Object> requestBody = Map.of(
+    "anthropic_version", "bedrock-2023-05-31",
+    "messages", List.of(Map.of(
+        "role", "user",
+        "content", List.of(Map.of(
+            "type", "text",
+            "text", message
+        ))
+    )),
+    "max_tokens", 100,
+    "temperature", 0.7
+);
+```
+### InvokeModelRequest 생성 후 모델 호출
+
+```java
+InvokeModelRequest request = InvokeModelRequest.builder()
+    .modelId("anthropic.claude-3-haiku-20240307-v1:0")
+    .body(SdkBytes.fromUtf8String(jsonBody))
+    .build();
+
+InvokeModelResponse response = bedrockClient.invokeModel(request);
+```
+## 📌 BedrockController 사용 예시
+### 요청
+```http request
+POST /api/bedrock/chat
+Content-Type: application/json
+
+{
+  "message": "Hello, Bedrock!"
+}
+```
+- 요청 바디에는 message 키만 필요합니다.
+
+## 💡 주의 사항
+### AWS CLI 프로파일(smooth)설정
+- 자신의 AWS CLI 프로파일이 있다면 그것으로 바꾸시면 됩니다!
+### 모델 ID와 Region
+- 모델 ID(anthropic.claude-3-haiku-20240307-v1:0)와 Region을 맞게 설정하셔야 합니다!
+- Region별로 제공하는 모델이 다르니 확인이 필요합니다!
+- max_tokens, temperature 등 파라미터는 필요에 따라 조정해주세요!

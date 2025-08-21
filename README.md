@@ -31,7 +31,7 @@ common_example
 - **11xx**: 계정 상태 관련
 - **12xx**: 계정 상태 관련
 
-## Service 에러코드 시작 예시
+## 💡 Service 에러코드 시작 예시
 - **1xxx**: user-service
 - **2xxx**: drivecast-service
 - **3xxx**: driving-analysis-service
